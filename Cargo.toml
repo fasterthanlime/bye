@@ -10,3 +10,8 @@ description = "Testing cargo-dist's happy path"
 
 [workspace.metadata.release]
 publish = false
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
