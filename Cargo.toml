@@ -1,0 +1,12 @@
+[package]
+name = "bye"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/fasterthanlime/bye.git"
+authors = ["Amos Wenger <amos@bearcove.net>"]
+description = "Testing cargo-dist's happy path"
+
+[dependencies]
+
+[workspace.metadata.release]
+publish = false
