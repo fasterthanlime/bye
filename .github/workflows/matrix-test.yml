@@ -10,18 +10,21 @@ jobs:
           - target: x86_64-unknown-linux-gnu
             container_image: quay.io/pypa/manylinux_2_28_x86_64
             install_rustup: true
+          # this doesn't work: GHA doesn't do ARM64 emulation via qemu-user-static
           - target: aarch64-unknown-linux-gnu
             container_image: quay.io/pypa/manylinux_2_28_aarch64
             install_rustup: true
           - target: aarch64-unknown-linux-gnu,x86_64-unknown-linux-gnu
             container_image: quay.io/pypa/manylinux_2_28_x86_64
             install_rustup: true
-            install_cargo_zigbuild: true
+            install_cargo_zigbuild_for_almalinux: true
           - target: x86_64-pc-windows-msvc,aarch64-pc-windows-msvc
             container_image: messense/cargo-xwin
           - target: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
             runs-on: ubuntu-latest
             install_cargo_zigbuild: true
+          - target: x86_64-apple-darwin,aarch64-apple-darwin
+            runs-on: macos-latest
     runs-on: ${{ matrix.runs-on || 'ubuntu-latest' }}
     container: ${{ matrix.container_image || '' }}
     steps:
@@ -34,6 +37,14 @@ jobs:
         if: ${{ matrix.install_cargo_zigbuild }}
         shell: bash
         run: pip install cargo-zigbuild
+      - name: Install cargo-zigbuild for alma linux
+        if: ${{ matrix.install_cargo_zigbuild_for_almalinux }}
+        shell: bash
+        run: |
+          dnf install --assumeyes python3-pip
+          pip3 install --upgrade pip
+          pip3 install cargo-zigbuild
+          cargo-zigbuild --version
       - name: Install cargo-dist
         shell: bash
         run: "curl --proto '=https' --tlsv1.2 -LsSf https://dl.bearcove.cloud/dump/dist-cross/cargo-dist-installer.sh | sh"
