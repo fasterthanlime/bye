@@ -7,11 +7,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - targets: x86_64-pc-windows-msvc,aarch64-pc-windows-msvc
+          - target: x86_64-pc-windows-msvc,aarch64-pc-windows-msvc
             container_image: messense/cargo-xwin
-          - targets: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
+          - target: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
             container_image: quay.io/pypa/manylinux2014_x86_64
-          - targets: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
+          - target: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
             runs-on: ubuntu-latest
     runs-on: ${{ matrix.runs-on || 'ubuntu-latest' }}
     container: ${{ matrix.container_image || '' }}
@@ -22,4 +22,4 @@ jobs:
         shell: bash
         run: "curl --proto '=https' --tlsv1.2 -LsSf https://dl.bearcove.cloud/dump/dist-cross/cargo-dist-installer.sh | sh"
       - name: Build local artifacts
-        run: cargo dist build --artifacts local
+        run: cargo dist build --artifacts local --target ${{ matrix.target }}
