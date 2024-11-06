@@ -4,15 +4,18 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - runs-on: ubuntu-latest
-            container_image: node:18
+          - container_image: quay.io/pypa/manylinux2014_x86_64
           - runs-on: ubuntu-latest
     runs-on: ${{ matrix.runs-on || 'ubuntu-latest' }}
     container: ${{ matrix.container_image || '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm install
+      - name: Install cargo-dist
+        shell: bash
+        run: "curl --proto '=https' --tlsv1.2 -LsSf https://dl.bearcove.cloud/dump/dist-cross/cargo-dist-installer.sh | sh"
+      - name: Build local artifacts
+        run: cargo dist build --artifacts local
