@@ -1,0 +1,19 @@
+on:
+  push:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        environment: [container, host]
+        include:
+          - runs-on: ubuntu-latest
+            container_image: node:18
+          - runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runs-on || 'ubuntu-latest' }}
+    container: ${{ matrix.container_image || '' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
