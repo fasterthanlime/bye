@@ -5,7 +5,6 @@ jobs:
   build:
     strategy:
       matrix:
-        environment: [container, host]
         include:
           - runs-on: ubuntu-latest
             container_image: node:18
