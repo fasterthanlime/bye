@@ -18,7 +18,9 @@ jobs:
             container_image: quay.io/pypa/manylinux_2_28_x86_64
             install_rustup: true
             install_cargo_zigbuild_for_almalinux: true
-          - target: x86_64-pc-windows-msvc,aarch64-pc-windows-msvc
+          - target: x86_64-pc-windows-msvc
+            container_image: messense/cargo-xwin
+          - target: aarch64-pc-windows-msvc
             container_image: messense/cargo-xwin
           - target: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
             runs-on: ubuntu-latest
