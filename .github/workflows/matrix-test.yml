@@ -50,3 +50,8 @@ jobs:
         run: "curl --proto '=https' --tlsv1.2 -LsSf https://dl.bearcove.cloud/dump/dist-cross/cargo-dist-installer.sh | sh"
       - name: Build local artifacts
         run: cargo dist build --artifacts local --target ${{ matrix.target }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: target/distrib
