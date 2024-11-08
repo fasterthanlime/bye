@@ -24,4 +24,4 @@ container = { image = "quay.io/pypa/manylinux_2_28_x86_64", host = "aarch64-unkn
 
 [dist.github-custom-runners.aarch64-pc-windows-msvc]
 runner = "ubuntu-20.04"
-# this will use cargo-xwin
+container = { image = "messense/cargo-xwin", host = "x86_64-unknown-linux-gnu" }
